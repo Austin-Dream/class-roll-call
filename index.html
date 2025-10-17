@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级点名系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: #4a6baf;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .class-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+            gap: 0.5rem;
+        }
+        
+        .class-btn {
+            background-color: #e9ecef;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .class-btn:hover {
+            background-color: #d8d8d8;
+        }
+        
+        .class-btn.active {
+            background-color: #4a6baf;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .class-info {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .roster-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+        
+        .roster-title {
+            margin-bottom: 1rem;
+            color: #4a6baf;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        .roster-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.8rem;
+        }
+        
+        .student-card {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 0.8rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .student-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .student-card.selected {
+            background-color: #4a6baf;
+            color: white;
+            border-color: #3a5b9f;
+        }
+        
+        .student-card.called {
+            background-color: #ffc107;
+            color: #333;
+        }
+        
+        .action-panel {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #4a6baf;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5b9f;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .result-display {
+            text-align: center;
+            font-size: 2rem;
+            margin: 1.5rem 0;
+            min-height: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .history-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .history-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .history-item {
+            background-color: #e9ecef;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .roster-list {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            
+            .action-panel {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>班级点名系统</h1>
+        <div class="class-nav">
+            <button class="class-btn active" data-class="2505">2505班</button>
+            <button class="class-btn" data-class="2511">2511班</button>
+            <button class="class-btn" data-class="2512">2512班</button>
+            <button class="class-btn" data-class="2509">2509班</button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="class-info">
+            <h2 id="current-class">2505班花名册</h2>
+            <p id="student-count">共52名学生</p>
+        </div>
+        
+        <div class="roster-container">
+            <h3 class="roster-title">学生名单</h3>
+            <div class="roster-list" id="roster-list">
+                <!-- 学生名单将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <div class="action-panel">
+            <button class="btn btn-primary" id="call-btn">随机点名</button>
+            <button class="btn btn-secondary" id="reset-btn">重置点名</button>
+        </div>
+        
+        <div class="result-display" id="result-display">
+            <!-- 点名结果将显示在这里 -->
+        </div>
+        
+        <div class="history-container">
+            <h3 class="roster-title">点名历史</h3>
+            <div class="history-list" id="history-list">
+                <!-- 点名历史将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 班级数据
+        const classData = {
+            "2505": [
+                "李可为", "易语", "许演豪", "高凌云", "杨莎莎", "张博轩", "高可欣", "孙鑫敏", 
+                "黎茜", "刘欣语", "隋焱臣", "黄子昂", "谢康", "方潇", "李诗雨", "尹涵雪", 
+                "李湘", "刘钟迎", "刘勃", "杨秉浩", "马一卉", "何忧", "张銮", "方森烨", 
+                "张蔓莎", "伏永淼", "邓帅", "李彦霖", "苏雅媛", "姜翔惟", "李骏成", "夏顺民", 
+                "定宇轩", "刘世博", "杨林婕", "刘志康", "余涛", "邹紫燕", "任沈哲", "孙芷涵", 
+                "朱灏俊", "何宇创", "方泽文", "韩可馨", "柳金萱", "宋安淇", "艾博文", "鲁恩希", 
+                "邓美烯", "张凌洁", "杨子叶", "汪紫涵"
+            ],
+            "2511": [
+                "李心妍", "石瀚麟", "李雪怡", "蔡佳旺", "廖俊豪", "刘思尹", "彭天乙", "龚俊熙", 
+                "马铛", "邹珍妮", "晏永强", "付明轩", "方雅汐", "金贝贝", "龙凯琴", "钟佳睿", 
+                "姚鑫程", "周文烨", "任静喧", "吴梓琦", "李玮宁", "张思雨", "杨海婷", "苏细成", 
+                "梁琪", "颜英杰", "彭思润", "邹雨婷", "刘思锦", "李鹏", "余旺贵", "余云翔", 
+                "任佳玲", "李馨玥", "李志远", "刘美林", "敖涵", "朱涛", "兰振宇", "周梓昊", 
+                "刘梓潼", "周文杰", "叶天翔", "杨沐雪", "魏毅博", "杨丽娟", "张宏洋"
+            ],
+            "2512": [
+                "周云麟", "马旭乐", "刘博文", "刘子晨", "冯峻熙", "曾周恩惠", "鲁屹帆", "刘靖涛", 
+                "刘浩宇", "史梁材", "陈燕", "孟芷珏", "贺夤譞", "兰楷雄", "周津紫", "姜雨欣", 
+                "黄梦瑶", "程可琴", "兰智林", "冯博威", "姚烨俊", "王梓萌", "刘顺安", "黎志伟", 
+                "李心红", "刘家辉", "张浩宇", "魏正阳", "欧阳祥瑞", "刘淑丽", "谭嘉旺", "尹思源", 
+                "李翰", "龙梓源", "陈添寿", "屈浩宇", "刘易虎", "方嘉沛", "毛圣强", "李诗琪", 
+                "周佳乐", "邓浩阳", "刘子轩", "刘屹涛", "谢根瑜", "陈好", "易雨馨", "毛平燕", "彭子轩"
+            ],
+            "2509": [
+                "方晟睿", "姜奕炫", "任思甜", "张梓萱", "唐宇泽", "余梦瑶", "张雨柔", "李虎", 
+                "张峻涛", "周诚", "卢鸿儒", "胡雨馨", "毛佳鑫", "周洋", "刘逸帆", "兰思彤", 
+                "陈宸", "付杨智", "陈恺诺", "周睿", "严佳琦", "黄瑶琪", "郭锦祺", "陈梦琳", 
+                "黄哲皓", "李思颖", "丁鹏", "方泽西", "周子晗", "王俊杰", "涂伟棋", "冯天宇", 
+                "任浩民", "张少杰", "刘钰钊", "张宇轩", "胡依娜", "甘子玲", "刘羽宸", "汤雨欣", 
+                "李昕", "戴哲皓", "彭影", "万瑾妤", "吴项宇", "汪莹", "何锦林", "杨浩宇", 
+                "刘佳晟", "柳鑫城"
+            ]
+        };
+
+        // 当前选中的班级
+        let currentClass = "2505";
+        // 已点名的学生记录
+        let calledStudents = [];
+        // 当前被点到的学生
+        let currentStudent = null;
+
+        // DOM元素
+        const classButtons = document.querySelectorAll('.class-btn');
+        const currentClassElement = document.getElementById('current-class');
+        const studentCountElement = document.getElementById('student-count');
+        const rosterListElement = document.getElementById('roster-list');
+        const callBtn = document.getElementById('call-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const resultDisplay = document.getElementById('result-display');
+        const historyListElement = document.getElementById('history-list');
+
+        // 初始化页面
+        function init() {
+            // 绑定班级切换事件
+            classButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 更新活动按钮
+                    classButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // 切换班级
+                    switchClass(btn.dataset.class);
+                });
+            });
+            
+            // 绑定点名按钮事件
+            callBtn.addEventListener('click', callStudent);
+            
+            // 绑定重置按钮事件
+            resetBtn.addEventListener('click', resetCall);
+            
+            // 初始化当前班级
+            switchClass(currentClass);
+        }
+
+        // 切换班级
+        function switchClass(classId) {
+            currentClass = classId;
+            calledStudents = [];
+            currentStudent = null;
+            
+            // 更新页面标题和计数
+            currentClassElement.textContent = `${classId}班花名册`;
+            studentCountElement.textContent = `共${classData[classId].length}名学生`;
+            
+            // 更新花名册
+            updateRoster();
+            
+            // 清空结果和历史
+            resultDisplay.textContent = '';
+            updateHistory();
+        }
+
+        // 更新花名册显示
+        function updateRoster() {
+            rosterListElement.innerHTML = '';
+            
+            classData[currentClass].forEach(student => {
+                const studentCard = document.createElement('div');
+                studentCard.className = 'student-card';
+                
+                if (student === currentStudent) {
+                    studentCard.classList.add('selected');
+                } else if (calledStudents.includes(student)) {
+                    studentCard.classList.add('called');
+                }
+                
+                studentCard.textContent = student;
+                rosterListElement.appendChild(studentCard);
+            });
+        }
+
+        // 随机点名
+        function callStudent() {
+            const availableStudents = classData[currentClass].filter(
+                student => !calledStudents.includes(student)
+            );
+            
+            if (availableStudents.length === 0) {
+                resultDisplay.textContent = '所有学生都已点过名！';
+                return;
+            }
+            
+            // 随机选择一名学生
+            const randomIndex = Math.floor(Math.random() * availableStudents.length);
+            currentStudent = availableStudents[randomIndex];
+            
+            // 添加到已点名列表
+            calledStudents.push(currentStudent);
+            
+            // 更新显示
+            resultDisplay.textContent = currentStudent;
+            updateRoster();
+            updateHistory();
+        }
+
+        // 重置点名
+        function resetCall() {
+            calledStudents = [];
+            currentStudent = null;
+            resultDisplay.textContent = '';
+            updateRoster();
+            updateHistory();
+        }
+
+        // 更新点名历史
+        function updateHistory() {
+            historyListElement.innerHTML = '';
+            
+            calledStudents.forEach(student => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.textContent = student;
+                historyListElement.appendChild(historyItem);
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
