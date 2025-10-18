@@ -37,8 +37,8 @@
         /* 流星效果 */
         .shooting-star {
             position: absolute;
-            width: 100px;
-            height: 1px;
+            width: 120px;
+            height: 2px;
             background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
             transform: rotate(-45deg);
             opacity: 0;
@@ -52,38 +52,32 @@
             justify-content: center;
             height: 100vh;
             text-align: center;
-            background: rgba(0, 0, 0, 0.7);
-        }
-        
-        .title {
-            font-size: 3.5rem;
-            margin-bottom: 2rem;
-            text-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff;
-            animation: glow 2s infinite alternate;
+            background: rgba(0, 0, 0, 0.5);
         }
         
         .class-list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 30px;
             margin-top: 30px;
         }
         
         .class-btn {
-            padding: 15px 30px;
-            font-size: 1.5rem;
+            padding: 25px 40px;
+            font-size: 2rem;
             background: linear-gradient(45deg, #1a237e, #311b92);
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             color: white;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 0 15px rgba(0, 150, 255, 0.5);
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.7);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
         
         .class-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 200, 255, 0.8);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 200, 255, 1);
         }
         
         /* 班级页面样式 */
@@ -97,8 +91,8 @@
         }
         
         .class-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 3rem;
+            margin-bottom: 30px;
             text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
         }
         
@@ -142,26 +136,27 @@
         
         /* 控制按钮 */
         .controls {
-            margin-top: 30px;
+            margin-top: 40px;
             display: flex;
-            gap: 20px;
+            gap: 30px;
         }
         
         .control-btn {
-            padding: 15px 30px;
-            font-size: 1.3rem;
+            padding: 20px 40px;
+            font-size: 1.5rem;
             background: linear-gradient(45deg, #ff4081, #f50057);
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             color: white;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(255, 64, 129, 0.5);
+            box-shadow: 0 0 15px rgba(255, 64, 129, 0.7);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
         }
         
         .control-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 64, 129, 0.8);
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(255, 64, 129, 1);
         }
         
         .control-btn:disabled {
@@ -176,8 +171,8 @@
         
         /* 结果显示 */
         .result {
-            margin-top: 30px;
-            font-size: 3rem;
+            margin-top: 40px;
+            font-size: 3.5rem;
             min-height: 80px;
             text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
             transition: all 0.5s;
@@ -185,22 +180,13 @@
         
         /* 倒计时显示 */
         .countdown {
-            margin-top: 15px;
-            font-size: 1.5rem;
+            margin-top: 20px;
+            font-size: 2rem;
             color: #ff9900;
             text-shadow: 0 0 10px #ff9900;
         }
         
         /* 动画 */
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff;
-            }
-            to {
-                text-shadow: 0 0 20px #00f7ff, 0 0 30px #00f7ff, 0 0 40px #00f7ff;
-            }
-        }
-        
         @keyframes rotate {
             0% {
                 transform: rotateY(0) rotateX(0);
@@ -258,26 +244,29 @@
         
         @keyframes shooting-star {
             0% {
-                transform: translateX(0) translateY(0) rotate(-45deg);
+                left: 0;
+                top: 0;
                 opacity: 1;
             }
             100% {
-                transform: translateX(1000px) translateY(1000px) rotate(-45deg);
+                left: 100vw;
+                top: 100vh;
                 opacity: 0;
             }
         }
         
         .back-btn {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
+            top: 30px;
+            left: 30px;
+            padding: 15px 25px;
             background: rgba(255, 255, 255, 0.2);
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             color: white;
             cursor: pointer;
             transition: all 0.3s;
+            font-size: 1.2rem;
         }
         
         .back-btn:hover {
@@ -300,7 +289,6 @@
     
     <!-- 主界面 -->
     <div class="main-container" id="main">
-        <h1 class="title">炫酷点名系统</h1>
         <div class="class-list">
             <button class="class-btn" data-class="2505">2505班</button>
             <button class="class-btn" data-class="2509">2509班</button>
@@ -311,15 +299,8 @@
     
     <!-- 音频元素 -->
     <!-- 请将以下音乐文件替换为您在GitHub上上传的实际文件路径 -->
-    <audio id="calm-music" loop>
-        <source src="./calm-music.mp3" type="audio/mpeg">
-        <!-- 如果浏览器不支持MP3，可以添加其他格式 -->
-        <!-- <source src="./calm-music.ogg" type="audio/ogg"> -->
-    </audio>
     <audio id="tense-music">
-        <source src="./tense-music.mp3" type="audio/mpeg">
-        <!-- 如果浏览器不支持MP3，可以添加其他格式 -->
-        <!-- <source src="./tense-music.ogg" type="audio/ogg"> -->
+        <source src="./tensemusic.mp3" type="audio/mpeg">
     </audio>
     
     <script>
@@ -334,7 +315,7 @@
         // 全局变量
         let currentClassId = null;
         let selectedNames = {};
-        let calmMusic, tenseMusic;
+        let tenseMusic;
         let countdownInterval;
         
         // 创建星空背景
@@ -377,13 +358,13 @@
                 shootingStar.classList.add('shooting-star');
                 
                 // 随机位置
-                const startX = Math.random() * 100;
-                const startY = Math.random() * 30;
-                shootingStar.style.left = `${startX}%`;
+                const startX = -100;
+                const startY = Math.random() * 50;
+                shootingStar.style.left = `${startX}px`;
                 shootingStar.style.top = `${startY}%`;
                 
                 // 随机动画持续时间
-                const duration = 1 + Math.random() * 2;
+                const duration = 1 + Math.random();
                 shootingStar.style.animation = `shooting-star ${duration}s linear`;
                 
                 starsContainer.appendChild(shootingStar);
@@ -497,26 +478,18 @@
         // 语音播报
         function speakName(name) {
             if ('speechSynthesis' in window) {
+                // 停止任何正在进行的语音
+                speechSynthesis.cancel();
+                
                 const utterance = new SpeechSynthesisUtterance(`恭喜${name}同学`);
                 utterance.lang = 'zh-CN';
                 utterance.rate = 0.9;
-                speechSynthesis.speak(utterance);
-            }
-        }
-        
-        // 切换音乐
-        function switchMusic(type) {
-            // 暂停所有音乐
-            calmMusic.pause();
-            tenseMusic.pause();
-            
-            // 播放指定类型的音乐
-            if (type === 'calm') {
-                calmMusic.currentTime = 0;
-                calmMusic.play().catch(e => console.log("音乐播放失败:", e));
-            } else if (type === 'tense') {
-                tenseMusic.currentTime = 0;
-                tenseMusic.play().catch(e => console.log("音乐播放失败:", e));
+                utterance.volume = 1.0;
+                
+                // 确保音乐已经停止
+                setTimeout(() => {
+                    speechSynthesis.speak(utterance);
+                }, 100);
             }
         }
         
@@ -542,6 +515,10 @@
                     clearInterval(countdownInterval);
                     countdownElement.textContent = '';
                     
+                    // 停止音乐
+                    tenseMusic.pause();
+                    tenseMusic.currentTime = 0;
+                    
                     // 停止抽奖并显示结果
                     stopLottery(classPage);
                 }
@@ -551,9 +528,6 @@
         // 停止抽奖并显示结果
         function stopLottery(classPage) {
             const classId = currentClassId;
-            
-            // 切换为舒缓音乐
-            switchMusic('calm');
             
             // 随机选择一个名字
             const names = classData[classId];
@@ -650,11 +624,12 @@
                 const nameSphere = classPage.querySelector('.name-sphere');
                 nameSphere.style.animation = 'fast-rotate 1s infinite linear';
                 
-                // 切换为急促音乐
-                switchMusic('tense');
+                // 播放急促音乐
+                tenseMusic.currentTime = 0;
+                tenseMusic.play().catch(e => console.log("音乐播放失败:", e));
                 
-                // 开始10秒倒计时
-                startCountdown(classPage, 10);
+                // 开始5秒倒计时
+                startCountdown(classPage, 5);
             });
             
             classPage.querySelector('#reset-btn-' + classId).addEventListener('click', function() {
@@ -670,6 +645,10 @@
                     classPage.querySelector('.countdown').textContent = '';
                 }
                 
+                // 停止音乐
+                tenseMusic.pause();
+                tenseMusic.currentTime = 0;
+                
                 // 重置球体
                 explodeNames(classId, classPage);
                 
@@ -679,9 +658,6 @@
                 
                 // 确保按钮状态正确
                 classPage.querySelector('#start-btn-' + classId).disabled = false;
-                
-                // 切换为舒缓音乐
-                switchMusic('calm');
             });
             
             classPage.querySelector('.back-btn').addEventListener('click', function() {
@@ -694,8 +670,9 @@
                     clearInterval(countdownInterval);
                 }
                 
-                // 切换为舒缓音乐
-                switchMusic('calm');
+                // 停止音乐
+                tenseMusic.pause();
+                tenseMusic.currentTime = 0;
             });
         }
         
@@ -704,18 +681,8 @@
             createStars();
             
             // 初始化音乐
-            calmMusic = document.getElementById('calm-music');
             tenseMusic = document.getElementById('tense-music');
-            
-            calmMusic.volume = 0.5;
             tenseMusic.volume = 0.5;
-            
-            // 尝试播放舒缓音乐
-            try {
-                calmMusic.play();
-            } catch (e) {
-                console.log("自动播放被阻止，需要用户交互");
-            }
             
             // 为班级按钮添加事件监听器
             document.querySelectorAll('.class-btn').forEach(btn => {
@@ -724,13 +691,6 @@
                     showClassPage(classId);
                 });
             });
-            
-            // 为背景音乐添加交互播放
-            document.body.addEventListener('click', function() {
-                if (calmMusic.paused) {
-                    calmMusic.play().catch(e => console.log("播放失败:", e));
-                }
-            }, { once: true });
         });
     </script>
 </body>
