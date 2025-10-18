@@ -300,7 +300,7 @@
     <!-- 音频元素 -->
     <!-- 请将以下音乐文件替换为您在GitHub上上传的实际文件路径 -->
     <audio id="tense-music">
-        <source src="./tensemusic.mp3" type="audio/mpeg">
+        <source src="./tense1-music.mp3" type="audio/mpeg">
     </audio>
     
     <script>
@@ -475,21 +475,38 @@
             }, 1600);
         }
         
-        // 语音播报
+        // 语音播报 - 修复版
         function speakName(name) {
             if ('speechSynthesis' in window) {
                 // 停止任何正在进行的语音
                 speechSynthesis.cancel();
                 
+                // 创建语音合成实例
                 const utterance = new SpeechSynthesisUtterance(`恭喜${name}同学`);
                 utterance.lang = 'zh-CN';
                 utterance.rate = 0.9;
                 utterance.volume = 1.0;
                 
-                // 确保音乐已经停止
+                // 添加事件监听器
+                utterance.onend = function() {
+                    console.log('语音播报完成');
+                };
+                
+                utterance.onerror = function(event) {
+                    console.error('语音播报错误:', event);
+                };
+                
+                // 使用setTimeout确保语音播报在音乐停止后执行
                 setTimeout(() => {
-                    speechSynthesis.speak(utterance);
+                    try {
+                        speechSynthesis.speak(utterance);
+                        console.log('开始语音播报');
+                    } catch (error) {
+                        console.error('语音播报失败:', error);
+                    }
                 }, 100);
+            } else {
+                console.log('浏览器不支持语音合成');
             }
         }
         
@@ -551,8 +568,10 @@
             const result = classPage.querySelector('.result');
             result.textContent = `恭喜 ${selectedName} 同学！`;
             
-            // 语音播报
-            speakName(selectedName);
+            // 语音播报 - 确保在音乐停止后执行
+            setTimeout(() => {
+                speakName(selectedName);
+            }, 200);
             
             // 球体转回中心并爆炸
             const nameSphere = classPage.querySelector('.name-sphere');
